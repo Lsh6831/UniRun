@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // 플레이어가 사망 시 재생할 오디오 클립
+
     public AudioClip deathClip;
     // 점프 힘
     public float jumpForce = 700f;
@@ -22,6 +23,10 @@ public class PlayerController : MonoBehaviour
     private AudioSource playerAudio;
     // 사용할 애니메이터 컴포넌트
     private Animator animator;
+
+    public float maxSpeed = 5f;
+    
+
     void Start()
     {
         // 각 전역변수의 초기화
@@ -31,12 +36,13 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         //                이것만 실행시 플레이어가 리지드바디 2D를 찾아서 가져온다
-
+        playerRigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         // 사용자의 입력을 감지하고 점프하는 처리
         //1. 현재 상황에 알맞은 애니메이션을 재생.
         //2. 마우스의 왼쪽 버튼의 클릭을 감지하고 점프.
@@ -45,7 +51,6 @@ public class PlayerController : MonoBehaviour
 
         //사망 시 더이상 처리를 진행하지 않고 종료하는 처리
         if (isDead) return;
-
         // 마우스 왼쪽 버튼을 눌렀으면 & 최대점프 횟수 2에 도달하지 않았다면.
         if (Input.GetMouseButtonDown(0) && jumpCount < 2)
         {
@@ -72,6 +77,17 @@ public class PlayerController : MonoBehaviour
         // 애니메이터의 Grounded 파라미터를 isGrounded 값으로 갱신
         animator.SetBool("Grounded", isGrounded);
         animator.GetBool("Grounded");
+
+        float x = Input.GetAxisRaw("Horizontal");
+        playerRigidbody.AddForce(Vector2.right * x, ForceMode2D.Impulse);
+
+        if (playerRigidbody.velocity.x > maxSpeed)
+        {
+            playerRigidbody.velocity = new Vector2(maxSpeed, playerRigidbody.velocity.y);
+
+        }
+        else if (playerRigidbody.velocity.x < maxSpeed * (-1))
+            playerRigidbody.velocity = new Vector2(maxSpeed * (-1), playerRigidbody.velocity.y);
     }
             void Die()
         {
@@ -109,6 +125,7 @@ public class PlayerController : MonoBehaviour
             }
     }
         //oncol 만 입력하면 나오는것중 Exit2D
+        //collision 는
         private void OnCollisionExit2D(Collision2D collision)
         {
         //바닥에서 벗어나자 마자 처리
@@ -127,5 +144,12 @@ public class PlayerController : MonoBehaviour
                 Die();
             }
         }
+    //충돌 ! 유니티! 충동 굉장히 다양하게 사용이 됩니다.
+    //충돌 크게 두가지로 구분 하는데.
+    //1.OnCollision 계열 - Enter , Stay ,Exit
+    // - OnCollision 계열은 두 콜라이더 끼리의 충돌에서 단 하나도 isTrigger 가 체크가 되어 있지 않은 경우.
+    //2.OnTrigger 게열  - Enter , Stay ,Exit
+    // - OnTrigger 계열은 단 하나락도 isTrigger가 체크가 되어 있을 떄 사용 하는것
+    // isTrigger 체크시 물리적인 벽이 사라진다(충돌만 감지)
 }
     
