@@ -11,8 +11,10 @@ public class ScrollingObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //초당(Time.deltatime) speed의 속도로 왼쪽으로 평행이동 구현
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
-
+        if (GameManager.instance.isGameover == false)
+        {
+            //초당(Time.deltatime) speed의 속도로 왼쪽으로 평행이동 구현
+            transform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
     }
 }

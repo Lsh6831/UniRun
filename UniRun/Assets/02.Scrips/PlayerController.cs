@@ -105,6 +105,9 @@ public class PlayerController : MonoBehaviour
             //사망상태를 True로 변경
             isDead = true;
 
+        // 게임 매니저의 게임오버 처리 실행
+        GameManager.instance.OnPlayerDead();
+
         }
         //oncol 만 입력하면 나오는것중 Enter2D
         private void OnCollisionEnter2D(Collision2D collision)

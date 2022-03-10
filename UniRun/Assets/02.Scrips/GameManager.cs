@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // 게임 오버 상태에서 사용자가 마우스 왼쪽 버튼(점프 버튼)을 클릭 한다면
-        if(!isGameover&&Input.GetMouseButtonDown(0))
+        if(isGameover&&Input.GetMouseButtonDown(0))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             //현재 활성화 되어 있는 씬의 이름을 가져온다
@@ -75,7 +75,9 @@ public class GameManager : MonoBehaviour
     // 플레이어 캐릭터가 사망 시 게임 오버를 실행하는 메서드
     public void OnPlayerDead()
     {
+        // 현재 상태를 게임 오버 상태로 변경
         isGameover = true;
+        // 게임오버 UI를 활성화
         gameoverUi.SetActive(true);
     }
 }
