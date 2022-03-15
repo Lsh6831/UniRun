@@ -49,6 +49,7 @@ public class PlatformSpawner : MonoBehaviour
     private float lastSpawnTime;
 
 
+
     void Start() 
     {
         //변수를 초기화하고 사용할 발판을 미리 생성
@@ -70,6 +71,7 @@ public class PlatformSpawner : MonoBehaviour
         lastSpawnTime = 0f;
         // 다음번 배치까지의 시간 간격을 초기화
         timeBetSpawn = 0f;
+
     }
 
     // Update is called once per frame
@@ -77,7 +79,7 @@ public class PlatformSpawner : MonoBehaviour
     {
         // 순서를 돌아가며 주기적으로 발판을 배치
 
-        // 게임 오버 상ㅌ캐에서는 동작하지 않아야 한다
+        // 게임 오버 상태에서는 동작하지 않아야 한다
         if (GameManager.instance.isGameover) return;
 
         // 마지막 배치 시점에서 timeBetSpawn 이상 시간이 흘렀다면
@@ -98,7 +100,7 @@ public class PlatformSpawner : MonoBehaviour
             // OnEnable 메서드가 실행됨
             platforms[currentIndex].SetActive(false);
             platforms[currentIndex].SetActive(true);
-
+            
             // 현재 순번의 발판을 화면 오른쪽에 재배치
             platforms[currentIndex].transform.position = new Vector2(xPos, yPos);
             // 순번 넘기기

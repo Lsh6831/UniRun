@@ -18,10 +18,15 @@ public class GameManager : MonoBehaviour
 
     private int score = 0; //게임 점수
 
+    public Text lifeText;
+
+    private int life = 3; //라이프
+
     private void Awake()
     // 보이스 스타트 보다 먼저 실행
     // 게임 시작과 동시에 싱글턴을 구성
     {
+        
         // 싱글턴 변수 instance가 비어 있나요?
         if (instance == null)
         {
@@ -53,6 +58,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    
+        
+
+
+
     //점수를 증가시키는 메서드
     public void AddScore(int newScore)
     {
@@ -69,8 +79,17 @@ public class GameManager : MonoBehaviour
             score += newScore;
             scoreText.text = "Score : " + score;
         }
-    
     }
+
+    public void PlayerLife(int newlife)
+    {
+        if (!isGameover)
+        {
+            life += newlife;
+            lifeText.text = "LIFE: " + life;
+        }
+    }
+
 
     // 플레이어 캐릭터가 사망 시 게임 오버를 실행하는 메서드
     public void OnPlayerDead()

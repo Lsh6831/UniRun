@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 //PlayerConteroller 는 플레이어 캐릭터로서 Player
 public class PlayerController : MonoBehaviour
 {
@@ -25,7 +26,10 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     public float maxSpeed = 5f;
-    
+
+    public int maxLife = 3;
+
+    public int life = 3;
 
     void Start()
     {
@@ -37,11 +41,19 @@ public class PlayerController : MonoBehaviour
 
         //                이것만 실행시 플레이어가 리지드바디 2D를 찾아서 가져온다
         playerRigidbody = GetComponent<Rigidbody2D>();
+        life = maxLife;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (life == 0)
+        {
+            if (!isDead)
+            {
+                Die();
+            }
+        }
 
         // 사용자의 입력을 감지하고 점프하는 처리
         //1. 현재 상황에 알맞은 애니메이션을 재생.
@@ -126,6 +138,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             jumpCount = 0;
             }
+            
     }
         //oncol 만 입력하면 나오는것중 Exit2D
         //collision 는
@@ -139,6 +152,18 @@ public class PlayerController : MonoBehaviour
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
+        if (collision.tag == "Life" && !isDead && life < maxLife)
+        {
+            life++;
+            GameManager.instance.PlayerLife(1);
+            collision.gameObject.SetActive(false);
+        }
+
+        if (collision.tag == "Enymi" && !isDead)
+        {
+            life--;
+            GameManager.instance.PlayerLife(-1);
+        }
             // 트리거 콜라이더를 가진 장애물과의 충돌을 감지
 
             // 충돌한 상대방의 태그가 Dead 이면서 아직 사망하지 않았나요?
@@ -146,7 +171,13 @@ public class PlayerController : MonoBehaviour
             {
                 Die();
             }
+            if(collision.tag=="Coin"&&!isDead)
+        {
+            GameManager.instance.AddScore(1);
+            collision.gameObject.SetActive(false);
         }
+        }
+
     //충돌 ! 유니티! 충동 굉장히 다양하게 사용이 됩니다.
     //충돌 크게 두가지로 구분 하는데.
     //1.OnCollision 계열 - Enter , Stay ,Exit

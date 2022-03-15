@@ -10,7 +10,6 @@ public class Platform : MonoBehaviour
     // 플레이어 캐릭터가 밟았는지
     private bool stepped = false;
 
-    public GameObject[] life;
     public GameObject[] coin;
 
     // 새로운 유니티 이벤트 메서드를 확인
@@ -36,38 +35,26 @@ public class Platform : MonoBehaviour
             if (Random.Range(0, 3) == 0)
             {
                 obstacles[i].SetActive(true);
-            }
+            }           
             else
             {
                 obstacles[i].SetActive(false);
             }
         }
-        //위와 같은 식
-        //obstacles[i].SetActive(Random.Range(0, 3) == 0 ? true : false);
-        for (int j = 0; j < life.Length; j++)
+        for (int j = 0; j < coin.Length; j++)
         {
-            // 현재 순번의 장애물을 1/10의 확률로 활성화
-            if (Random.Range(0, 10) == 0)
-            {
-                life[j].SetActive(true);
-            }
-            else
-            {
-                life[j].SetActive(false);
-            }
-        }
-        for (int e = 0; e < coin.Length; e++)
-        {
-            // 현재 순번의 장애물을 1/3의 확률로 활성화
             if (Random.Range(0, 6) == 0)
             {
-                coin[e].SetActive(true);
+                coin[j].SetActive(true);
             }
             else
             {
-                coin[e].SetActive(false);
+                coin[j].SetActive(false);
             }
+            
         }
+
+
 
     }
 
