@@ -24,7 +24,8 @@ public class MainMenu : MonoBehaviour
     {
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-          
+            Time.timeScale = 1f;
+
     }
 
     public void OnclickQuit()

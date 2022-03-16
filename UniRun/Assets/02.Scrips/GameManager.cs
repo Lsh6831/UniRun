@@ -18,9 +18,15 @@ public class GameManager : MonoBehaviour
 
     private int score = 0; //게임 점수
 
+    public GameObject menuPanel; //메뉴 페널
+
     public Text lifeText;
 
-    private int life = 3; //라이프
+    public Text hpText;
+
+    public int hpCount = 2;
+
+    private int life = 2; //라이프
 
     private void Awake()
     // 보이스 스타트 보다 먼저 실행
@@ -43,6 +49,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("씬에 두 개 이상의 게임 매니저가 존재합니다!");
             Destroy(gameObject);
         }
+    }
+    private void Start()
+    {
+        //                    ToString으로 형변환
+        hpText.text = ": "+hpCount.ToString();  
     }
 
     // 게임 오버 상태에서 게임을 재시작 할수 있게 하는 처리
@@ -85,8 +96,8 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameover)
         {
-            life += newlife;
-            lifeText.text = "LIFE: " + life;
+            hpCount += newlife;
+            hpText.text = ": " + hpCount;
         }
     }
 
@@ -99,4 +110,84 @@ public class GameManager : MonoBehaviour
         // 게임오버 UI를 활성화
         gameoverUi.SetActive(true);
     }
+
+    public void OnMenu()
+    {
+
+         menuPanel.SetActive(true);
+
+        Time.timeScale = 0f;
+
+        
+
+    }
+
+    public void OffMenu()
+    {
+        menuPanel.SetActive(false);
+
+        Time.timeScale = 1f;
+    }
+
+  
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
+    public void Restart()
+    {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+
+    }
+    ////선생님의 경우(하는법)
+    //퍼블릭 불 사용시 아래처럼 표시
+    public bool Crash()
+    {
+        hpCount--;
+        hpText.text = hpCount.ToString();
+        //= hpText.text = ""+ --hpCount;
+        ////                      Tostring 으로 형변황 안됨
+        if (hpCount <= 0) return true;
+        //리턴이 조건문(if)안에 있으면 안됨
+        return false;
+        //반대값(트루면 펄스) 이 있어야 한다
+    }
+
+
+    ////간략화
+    ////                           bool isActive 해놓으면 선택지가 생김 
+    //public void MenuPanelControl(bool isActive)
+    //{
+    //    menuPanel.SetActive(isActive);
+    //}
+
+    //// 클릭시 버튼(글자를) 보낼수 있는 방법
+    //public void UiContol(string type)
+    //{
+    //    switch (type)
+    //    {
+    //        case "menuon":
+    //            break;
+    //            menuPanel.SetActive(true);
+
+    //            Time.timeScale = 0f;
+    //        case "menuoff":
+    //            break;
+    //            menuPanel.SetActive(false);
+
+    //            Time.timeScale = 1f;
+
+    //        case "restart":
+    //            break;
+    //            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    //            Time.timeScale = 1f;
+    //        case "exit":
+    //            break;
+    //            Application.Quit();
+    //    }
+    //}
+
 }

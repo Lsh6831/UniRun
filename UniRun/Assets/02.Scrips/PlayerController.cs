@@ -27,9 +27,9 @@ public class PlayerController : MonoBehaviour
 
     public float maxSpeed = 5f;
 
-    public int maxLife = 3;
+    public int maxLife = 2;
 
-    public int life = 3;
+    public int life = 2;
 
     void Start()
     {
@@ -170,7 +170,13 @@ public class PlayerController : MonoBehaviour
             if(collision.tag=="Dead" && !isDead)
             {
                 Die();
-            }
+
+            //선생님의 경우
+            //else if (collision.tag == "Spark" && !isDead)
+            //{
+            //    GameManager.instance,Crash() == true) Die;
+            //}
+        }
             if(collision.tag=="Coin"&&!isDead)
         {
             GameManager.instance.AddScore(1);
